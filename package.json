@@ -1,0 +1,42 @@
+{
+  "name": "gendiffyn",
+  "version": "0.0.4",
+  "description": "Hexlet Project 2",
+  "main": "dist/index.js",
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-node": "babel-node",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build",
+    "eslint": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuriNem/project-lvl2-s225.git"
+  },
+  "author": "Yuri Nemushkin",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-preset-env": "*",
+    "babel-preset-stage-0": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/YuriNem/project-lvl2-s225/issues"
+  },
+  "homepage": "https://github.com/YuriNem/project-lvl2-s225#readme",
+  "dependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "commander": "^2.15.0"
+  }
+}
