@@ -1,6 +1,6 @@
 {
   "name": "gendiffyn",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Hexlet Project 2",
   "main": "dist/index.js",
   "bin": {
@@ -45,6 +45,7 @@
   "homepage": "https://github.com/YuriNem/project-lvl2-s225#readme",
   "dependencies": {
     "commander": "^2.15.0",
+    "js-yaml": "^3.11.0",
     "lodash": "^4.17.5"
   }
 }
