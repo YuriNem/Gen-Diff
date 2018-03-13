@@ -1,13 +1,12 @@
 import fs from 'fs';
 import getDiff from './getDiff';
 
-export default (pathToFile1, pathToFile2) => {
-  const file1 = JSON.parse(fs.readFileSync(pathToFile1));
-  const file2 = JSON.parse(fs.readFileSync(pathToFile2));
-  const diff = getDiff(file1, file2);
-  const newFile = `{\n${Object.keys(diff).reduce((stringFile, keyDiff) => {
-    const newStringFile = `${stringFile}\t${keyDiff}: ${diff[keyDiff]}\n`;
-    return newStringFile;
-  }, '')}}`;
-  return newFile;
+const parse = pathToFile => JSON.parse(fs.readFileSync(pathToFile));
+
+export default (pathToFileBefore, pathToFileAfter) => {
+  const objectFileBefore = parse(pathToFileBefore);
+  const objectFileAfter = parse(pathToFileAfter);
+  const objectFilesDiff = getDiff(objectFileBefore, objectFileAfter);
+  const stringFilesDiff = `\n{${Object.keys(objectFilesDiff).reduce((stringNew, filesKeyDiff) => `${stringNew}  ${filesKeyDiff}: ${objectFilesDiff[filesKeyDiff]}\n`, '\n')}}\n`;
+  return stringFilesDiff;
 };

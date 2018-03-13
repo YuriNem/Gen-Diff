@@ -6,10 +6,10 @@ import getDiffFile from '../';
 program
   .arguments('<firstConfig> <secondConfig>')
   .description('Compares two configuration files and shows a difference.')
-  .version('0.1.7')
+  .version('0.2.0')
   .option('-f, --format [type]', 'Output format')
   .action((firstConfig, secondConfig) => {
-    const diffFile = getDiffFile(firstConfig, secondConfig);
-    console.log(diffFile);
+    const diffConfig = getDiffFile(firstConfig, secondConfig);
+    console.log(diffConfig);
   })
   .parse(process.argv);
