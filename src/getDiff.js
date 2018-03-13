@@ -15,7 +15,7 @@ const addKey = (key, object1, object2) => {
   const addObject = {
     infile2: { [`+ ${key}`]: object2[key] },
     infile1: { [`- ${key}`]: object1[key] },
-    Equal: { [key]: object1[key] },
+    Equal: { [`  ${key}`]: object1[key] },
     Changed: { [`+ ${key}`]: object2[key], [`- ${key}`]: object1[key] },
   };
   return addObject;
