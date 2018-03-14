@@ -17,4 +17,11 @@ describe('Compares two configuration files and shows a difference.', () => {
     const actual = getDiffFile(pathToFileBefore, pathToFileAfter);
     expect(actual).toBe(expected);
   });
+
+  test('ini', () => {
+    const pathToFileBefore = '__test__/__fixtures__/before.ini';
+    const pathToFileAfter = '__test__/__fixtures__/after.ini';
+    const actual = getDiffFile(pathToFileBefore, pathToFileAfter);
+    expect(actual).toBe(expected);
+  });
 });
