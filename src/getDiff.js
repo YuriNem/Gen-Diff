@@ -21,7 +21,7 @@ export default (objectBefore, objectAfter) => {
     },
   ];
 
-  const getTypeKey = key => _.find(typesKeys, ({ check }) => check(key));
+  const getTypeKey = findkey => _.find(typesKeys, ({ check }) => check(findkey));
 
   const objectsKeys = _.union(Object.keys(objectBefore), Object.keys(objectAfter));
   const objectsDiff = objectsKeys.reduce((objectNew, objectsKey) => {

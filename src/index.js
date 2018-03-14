@@ -1,19 +1,14 @@
 import fs from 'fs';
 import path from 'path';
-import yaml from 'js-yaml';
-import ini from 'ini';
-import getDiff from './getDiff';
 
-const objectParseTypeFile = {
-  '.json': JSON.parse,
-  '.yml': yaml.safeLoad,
-  '.ini': ini.parse,
-};
+import getParse from './getParse';
+import getDiff from './getDiff';
+import toString from './toString';
 
 const parseFile = (pathToFile) => {
   const readFile = fs.readFileSync(pathToFile, 'utf-8');
   const typeFile = path.extname(pathToFile);
-  const objectFile = objectParseTypeFile[typeFile](readFile);
+  const objectFile = getParse(typeFile)(readFile);
   return objectFile;
 };
 
@@ -21,7 +16,6 @@ export default (pathToFileBefore, pathToFileAfter) => {
   const objectFileBefore = parseFile(pathToFileBefore);
   const objectFileAfter = parseFile(pathToFileAfter);
   const objectFilesDiff = getDiff(objectFileBefore, objectFileAfter);
-  const stringFilesDiff = `\n{${Object.keys(objectFilesDiff).reduce((stringNew, filesKeyDiff) =>
-    `${stringNew}  ${filesKeyDiff}: ${objectFilesDiff[filesKeyDiff]}\n`, '\n')}}\n`;
+  const stringFilesDiff = toString(objectFilesDiff);
   return stringFilesDiff;
 };

@@ -1,4 +1,5 @@
 import fs from 'fs';
+
 import getDiffFile from '../src';
 
 describe('Compares two configuration files and shows a difference.', () => {
