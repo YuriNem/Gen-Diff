@@ -7,7 +7,7 @@ import getDiffFile from '../';
 program
   .arguments('<firstConfig> <secondConfig>')
   .description('Compares two configuration files and shows a difference.')
-  .version('0.2.4')
+  .version('0.2.5')
   .option('-f, --format [type]', 'Output format')
   .action((firstConfig, secondConfig) => {
     const diffConfig = getDiffFile(firstConfig, secondConfig);
