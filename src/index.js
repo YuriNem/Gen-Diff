@@ -3,7 +3,7 @@ import path from 'path';
 
 import getParser from './getParser';
 import getDiff from './getDiff';
-import toFormat from './toFormat/indexToFormat';
+import toFormat from './toFormat';
 
 const parseFile = (pathToFile) => {
   const readFile = fs.readFileSync(pathToFile, 'utf-8');

@@ -6,23 +6,26 @@ const symbols = {
   updated: ' ',
 };
 
-const updatedUnchangedChildrenToString = (object, objectTab) =>
+const objectToString = (object, objectTab) =>
   `{\n${Object.keys(object).map(key => `${objectTab}      ${key}: ${object[key]}`).join('\n')}\n${objectTab}  }`;
 
 export default (coll) => {
-  const createString = (collection, tab) => collection.map((node) => {
-    if ((node.name === 'updated') && (node.children.length === 0)) {
-      const removedString = `${tab}${symbols.removed} ${node.key}: ${node.valueB instanceof Object ?
-        updatedUnchangedChildrenToString(node.valueB, tab) : node.valueB}`;
-      const addedString = `${tab}${symbols.added} ${node.key}: ${node.valueA instanceof Object ?
-        updatedUnchangedChildrenToString(node.valueA, tab) : node.valueA}`;
-      return `${removedString}\n${addedString}`;
+  const createDefault = (collection, tab) => collection.map((node) => {
+    if (node.name === 'updated') {
+      if (node.children.length > 0) {
+        return `${tab}${symbols[node.name]} ${node.key}: ${`{\n${createDefault(node.children, `${tab}    `)}\n${tab}  }`}`;
+      }
+
+      const removedDefault = `${tab}${symbols.removed} ${node.key}: ${node.valueB instanceof Object ?
+        objectToString(node.valueB, tab) : node.valueB}`;
+      const addedDefault = `${tab}${symbols.added} ${node.key}: ${node.valueA instanceof Object ?
+        objectToString(node.valueA, tab) : node.valueA}`;
+      return `${removedDefault}\n${addedDefault}`;
     }
 
-    return `${tab}${symbols[node.name]} ${node.key}: ${node.children.length > 0 ?
-      `{\n${createString(node.children, `${tab}    `)}\n${tab}  }` : `${node.valueB ?
-        node.valueB : node.valueA}`}`;
+    const value = node.valueB ? node.valueB : node.valueA;
+    return `${tab}${symbols[node.name]} ${node.key}: ${value instanceof Object ? objectToString(value, tab) : value}`;
   }).join('\n');
 
-  return `\n{\n${createString(coll, '  ')}\n}\n`;
+  return `\n{\n${createDefault(coll, '  ')}\n}\n`;
 };

@@ -5,22 +5,13 @@ const createNode = (name, key, valueB, valueA, children) =>
     name, key, valueB, valueA, children,
   });
 
-const createUnchangedChildren = object => Object.keys(object).map((key) => {
-  const name = 'unchanged';
-  const valueB = object[key];
-  const valueA = '';
-  const children = valueB instanceof Object ? createUnchangedChildren(valueB) : [];
-  return createNode(name, key, valueB, valueA, children);
-});
-
 const getDiff = (objectBefore, objectAfter) => {
   const typesKeys = [
     {
       name: 'added',
       valueB: () => '',
       valueA: key => objectAfter[key],
-      children: key => (objectAfter[key] instanceof Object ?
-        createUnchangedChildren(objectAfter[key]) : []),
+      children: () => [],
 
       check: key => !objectBefore[key],
     },
@@ -28,8 +19,7 @@ const getDiff = (objectBefore, objectAfter) => {
       name: 'removed',
       valueB: key => objectBefore[key],
       valueA: () => '',
-      children: key => (objectBefore[key] instanceof Object ?
-        createUnchangedChildren(objectBefore[key]) : []),
+      children: () => [],
 
       check: key => !objectAfter[key],
     },
@@ -37,8 +27,7 @@ const getDiff = (objectBefore, objectAfter) => {
       name: 'unchanged',
       valueB: key => objectBefore[key],
       valueA: () => '',
-      children: key => (objectBefore[key] instanceof Object ?
-        createUnchangedChildren(objectBefore[key]) : []),
+      children: () => [],
 
       check: key => objectBefore[key] === objectAfter[key],
     },
@@ -63,10 +52,7 @@ const getDiff = (objectBefore, objectAfter) => {
       name, valueB, valueA, children,
     }
     = getTypeKey(key);
-    return createNode(
-      name, key,
-      valueB(key), valueA(key), children(key),
-    );
+    return createNode(name, key, valueB(key), valueA(key), children(key));
   });
   return collDiff;
 };
