@@ -1,0 +1,57 @@
+{
+ "common": {
+  "setting2": {
+   "diff": "removed",
+   "value": "200"
+  },
+  "setting3": {
+   "diff": "updated",
+   "from": true,
+   "to": {
+    "key": "value"
+   }
+  },
+  "setting6": {
+   "ops": {
+    "diff": "added",
+    "value": "vops"
+   }
+  },
+  "setting4": {
+   "diff": "added",
+   "value": "blah blah"
+  },
+  "setting5": {
+   "diff": "added",
+   "value": {
+    "key5": "value5"
+   }
+  }
+ },
+ "group1": {
+  "baz": {
+   "diff": "updated",
+   "from": "bas",
+   "to": "bars"
+  },
+  "nest": {
+   "diff": "updated",
+   "from": {
+    "key": "value"
+   },
+   "to": "str"
+  }
+ },
+ "group2": {
+  "diff": "removed",
+  "value": {
+   "abc": "12345"
+  }
+ },
+ "group3": {
+  "diff": "added",
+  "value": {
+   "fee": "100500"
+  }
+ }
+}
