@@ -1,26 +1,24 @@
 
 export default (coll) => {
   const createJSON = collection => collection.reduce((objectNew, node) => {
-    if (node.name !== 'unchanged') {
-      if (node.name === 'nested') {
+    switch (node.name) {
+      case 'nested':
         return { ...objectNew, [node.key]: createJSON(node.children) };
-      }
-
-      if (node.name === 'updated') {
+      case 'updated':
         return {
           ...objectNew,
           [node.key]: { diff: node.name, from: node.valueB, to: node.valueA },
         };
-      }
-
-      return {
-        ...objectNew,
-        [node.key]: { diff: node.name, value: (node.valueB ? node.valueB : node.valueA) },
-      };
+      case 'removed':
+        return { ...objectNew, [node.key]: { diff: node.name, value: node.valueB } };
+      case 'added':
+        return { ...objectNew, [node.key]: { diff: node.name, value: node.valueA } };
+      case 'unchanged':
+        return objectNew;
+      default:
+        return objectNew;
     }
-
-    return objectNew;
   }, {});
 
-  return JSON.stringify(createJSON(coll), null, ' ');
+  return JSON.stringify(createJSON(coll));
 };
