@@ -10,8 +10,11 @@ const typeNode = {
 export default (coll) => {
   const createPlain = (collection, parent) => collection.reduce((stringNew, node) => {
     if (node.name !== 'unchanged') {
-      const children = node.children.length > 0 ? createPlain(node.children, `${node.key}.`) : '';
-      return (`${stringNew}Property ${parent}${typeNode[node.name](node.key, node)}\n${children}`);
+      if (node.name === 'nested') {
+        return `${stringNew}${createPlain(node.children, `${node.key}.`)}`;
+      }
+
+      return (`${stringNew}Property ${parent}${typeNode[node.name](node.key, node)}\n`);
     }
 
     return stringNew;

@@ -2,11 +2,11 @@
 export default (coll) => {
   const createJSON = collection => collection.reduce((objectNew, node) => {
     if (node.name !== 'unchanged') {
-      if (node.name === 'updated') {
-        if (node.children.length > 0) {
-          return { ...objectNew, [node.key]: createJSON(node.children) };
-        }
+      if (node.name === 'nested') {
+        return { ...objectNew, [node.key]: createJSON(node.children) };
+      }
 
+      if (node.name === 'updated') {
         return {
           ...objectNew,
           [node.key]: { diff: node.name, from: node.valueB, to: node.valueA },

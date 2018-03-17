@@ -1,58 +1,42 @@
 import _ from 'lodash';
 
-const createNode = (name, key, valueB, valueA, children) =>
-  ({
-    name, key, valueB, valueA, children,
-  });
+const typesKeys = [
+  {
+    name: 'nested',
+    check: (valueB, valueA) => valueB instanceof Object && valueA instanceof Object,
+    process: (valueB, valueA, f) => ({ children: f(valueB, valueA) }),
+  },
+  {
+    name: 'added',
+    check: valueB => !valueB,
+    process: (valueB, valueA) => ({ valueA }),
+  },
+  {
+    name: 'removed',
+    check: (valueB, valueA) => !valueA,
+    process: valueB => ({ valueB }),
+  },
+  {
+    name: 'unchanged',
+    check: (valueB, valueA) => valueB === valueA,
+    process: valueB => ({ valueB }),
+  },
+  {
+    name: 'updated',
+    check: (valueB, valueA) => valueB !== valueA,
+    process: (valueB, valueA) => ({ valueB, valueA }),
+  },
+];
+
+const getTypeKey = (valueB, valueA) => _.find(typesKeys, ({ check }) => check(valueB, valueA));
 
 const getDiff = (objectBefore, objectAfter) => {
-  const typesKeys = [
-    {
-      name: 'added',
-      valueB: () => '',
-      valueA: key => objectAfter[key],
-      children: () => [],
-
-      check: key => !objectBefore[key],
-    },
-    {
-      name: 'removed',
-      valueB: key => objectBefore[key],
-      valueA: () => '',
-      children: () => [],
-
-      check: key => !objectAfter[key],
-    },
-    {
-      name: 'unchanged',
-      valueB: key => objectBefore[key],
-      valueA: () => '',
-      children: () => [],
-
-      check: key => objectBefore[key] === objectAfter[key],
-    },
-    {
-      name: 'updated',
-      valueB: key => objectBefore[key],
-      valueA: key => objectAfter[key],
-      children: key =>
-        (((objectBefore[key] instanceof Object) && (objectAfter[key] instanceof Object))
-          ? getDiff(objectBefore[key], objectAfter[key]) : []),
-
-      check: key =>
-        (objectBefore[key]) && (objectAfter[key]) && (objectBefore[key] !== objectAfter[key]),
-    },
-  ];
-
-  const getTypeKey = key => _.find(typesKeys, ({ check }) => check(key));
-
   const objectsKeys = _.union(Object.keys(objectBefore), Object.keys(objectAfter));
   const collDiff = objectsKeys.map((key) => {
-    const {
-      name, valueB, valueA, children,
-    }
-    = getTypeKey(key);
-    return createNode(name, key, valueB(key), valueA(key), children(key));
+    const valueB = objectBefore[key];
+    const valueA = objectAfter[key];
+    const { name, process } = getTypeKey(valueB, valueA);
+    return { name, key, ...process(valueB, valueA, getDiff) };
   });
   return collDiff;
 };
