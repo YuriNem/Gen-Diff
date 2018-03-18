@@ -1,26 +1,33 @@
+import _ from 'lodash';
 
-const objectToString = (object, objectTab) =>
-  `{\n${Object.keys(object).map(key => `${objectTab}      ${key}: ${object[key]}`).join('\n')}\n${objectTab}  }`;
+const stringify = (value, valueTab) => {
+  if (value instanceof Object) {
+    return `{\n${Object.keys(value).map(key => `${valueTab}      ${key}: ${value[key]}`).join('\n')}\n${valueTab}  }`;
+  }
+  return value;
+};
 
 export default (coll) => {
-  const createDefault = (collection, tab) => collection.map((node) => {
-    const valueB = node.valueB instanceof Object ? objectToString(node.valueB, tab) : node.valueB;
-    const valueA = node.valueA instanceof Object ? objectToString(node.valueA, tab) : node.valueA;
-    switch (node.name) {
+  const createDefault = (collection, tab) => _.flatten(collection.map(({
+    name, key, valueB, valueA, children,
+  }) => {
+    const oldValue = stringify(valueB, tab);
+    const newValue = stringify(valueA, tab);
+    switch (name) {
       case 'nested':
-        return `${tab}  ${node.key}: ${`{\n${createDefault(node.children, `${tab}    `)}\n${tab}  }`}`;
+        return `${tab}  ${key}: ${`{\n${createDefault(children, `${tab}    `)}\n${tab}  }`}`;
       case 'updated':
-        return `${tab}- ${node.key}: ${valueB}\n${tab}+ ${node.key}: ${valueA}`;
+        return [`${tab}- ${key}: ${oldValue}`, `${tab}+ ${key}: ${newValue}`];
       case 'removed':
-        return `${tab}- ${node.key}: ${valueB}`;
+        return `${tab}- ${key}: ${oldValue}`;
       case 'added':
-        return `${tab}+ ${node.key}: ${valueA}`;
+        return `${tab}+ ${key}: ${newValue}`;
       case 'unchanged':
-        return `${tab}  ${node.key}: ${valueB}`;
+        return `${tab}  ${key}: ${oldValue}`;
       default:
         return '';
     }
-  }).join('\n');
+  })).join('\n');
 
   return `{\n${createDefault(coll, '  ')}\n}`;
 };

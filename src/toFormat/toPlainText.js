@@ -1,17 +1,26 @@
 
+const checkComplexValue = (value) => {
+  if (value instanceof Object) {
+    return 'complex value';
+  }
+  return value;
+};
+
 export default (coll) => {
-  const createPlain = (collection, parent) => collection.map((node) => {
-    const valueB = node.valueB instanceof Object ? 'complex value' : node.valueB;
-    const valueA = node.valueA instanceof Object ? 'complex value' : node.valueA;
-    switch (node.name) {
+  const createPlain = (collection, parent) => collection.map(({
+    name, key, valueB, valueA, children,
+  }) => {
+    const oldValue = checkComplexValue(valueB);
+    const newValue = checkComplexValue(valueA);
+    switch (name) {
       case 'nested':
-        return createPlain(node.children, `${parent}${node.key}.`);
+        return createPlain(children, `${parent}${key}.`);
       case 'updated':
-        return `Property ${parent}${node.key} was updated. From ${valueB} to ${valueA}`;
+        return `Property ${parent}${key} was updated. From ${oldValue} to ${newValue}`;
       case 'removed':
-        return `Property ${parent}${node.key} was removed`;
+        return `Property ${parent}${key} was removed`;
       case 'added':
-        return `Property ${parent}${node.key} was added with ${valueA === 'complex value' ? 'complex value' : `value: ${valueA}`}`;
+        return `Property ${parent}${key} was added with ${newValue === 'complex value' ? 'complex value' : `value: ${newValue}`}`;
       case 'unchanged':
         return '';
       default:
