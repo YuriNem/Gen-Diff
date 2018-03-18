@@ -2,52 +2,52 @@ import fs from 'fs';
 
 import getDiffFile from '../src';
 
-describe('Compares two configuration files and shows a difference in default text.', () => {
-  const expected = fs.readFileSync('__test__/__fixtures__/defaultDiff.txt', 'utf-8');
+describe('Compares two configuration files and shows a difference in nested text.', () => {
+  const expected = fs.readFileSync('__test__/__fixtures__/nestedDiff.txt', 'utf-8');
 
-  test('json to default text', () => {
+  test('json to nested text', () => {
     const pathToFileBefore = '__test__/__fixtures__/before.json';
     const pathToFileAfter = '__test__/__fixtures__/after.json';
-    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'default');
+    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'nested');
     expect(actual).toBe(expected);
   });
 
-  test('yml to default text', () => {
+  test('yml to nested text', () => {
     const pathToFileBefore = '__test__/__fixtures__/before.yml';
     const pathToFileAfter = '__test__/__fixtures__/after.yml';
-    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'default');
+    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'nested');
     expect(actual).toBe(expected);
   });
 
-  test('ini to default text', () => {
+  test('ini to nested text', () => {
     const pathToFileBefore = '__test__/__fixtures__/before.ini';
     const pathToFileAfter = '__test__/__fixtures__/after.ini';
-    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'default');
+    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'nested');
     expect(actual).toBe(expected);
   });
 });
 
-describe('Compares two configuration files with trees and shows a difference in default text.', () => {
-  const expected = fs.readFileSync('__test__/__fixtures__/defaultDiffTree.txt', 'utf-8');
+describe('Compares two configuration files with trees and shows a difference in nested text.', () => {
+  const expected = fs.readFileSync('__test__/__fixtures__/nestedDiffTree.txt', 'utf-8');
 
-  test('json tree to default text', () => {
+  test('json tree to nested text', () => {
     const pathToFileBefore = '__test__/__fixtures__/beforeTree.json';
     const pathToFileAfter = '__test__/__fixtures__/afterTree.json';
-    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'default');
+    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'nested');
     expect(actual).toBe(expected);
   });
 
-  test('yml tree to default text', () => {
+  test('yml tree to nested text', () => {
     const pathToFileBefore = '__test__/__fixtures__/beforeTree.yml';
     const pathToFileAfter = '__test__/__fixtures__/afterTree.yml';
-    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'default');
+    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'nested');
     expect(actual).toBe(expected);
   });
 
-  test('ini tree to default text', () => {
+  test('ini tree to nested text', () => {
     const pathToFileBefore = '__test__/__fixtures__/beforeTree.ini';
     const pathToFileAfter = '__test__/__fixtures__/afterTree.ini';
-    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'default');
+    const actual = getDiffFile(pathToFileBefore, pathToFileAfter, 'nested');
     expect(actual).toBe(expected);
   });
 });

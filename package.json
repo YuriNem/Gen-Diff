@@ -1,6 +1,6 @@
 {
   "name": "gendiffyn",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Hexlet Project 2",
   "main": "dist/index.js",
   "bin": {

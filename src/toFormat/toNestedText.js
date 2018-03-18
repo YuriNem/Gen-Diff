@@ -8,14 +8,14 @@ const stringify = (value, valueTab) => {
 };
 
 export default (coll) => {
-  const createDefault = (collection, tab) => _.flatten(collection.map(({
+  const createNested = (collection, tab) => _.flatten(collection.map(({
     name, key, valueB, valueA, children,
   }) => {
     const oldValue = stringify(valueB, tab);
     const newValue = stringify(valueA, tab);
     switch (name) {
       case 'nested':
-        return `${tab}  ${key}: ${`{\n${createDefault(children, `${tab}    `)}\n${tab}  }`}`;
+        return `${tab}  ${key}: ${`{\n${createNested(children, `${tab}    `)}\n${tab}  }`}`;
       case 'updated':
         return [`${tab}- ${key}: ${oldValue}`, `${tab}+ ${key}: ${newValue}`];
       case 'removed':
@@ -29,5 +29,5 @@ export default (coll) => {
     }
   })).join('\n');
 
-  return `{\n${createDefault(coll, '  ')}\n}`;
+  return `{\n${createNested(coll, '  ')}\n}`;
 };

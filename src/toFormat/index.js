@@ -1,9 +1,9 @@
-import toDefaultText from './toDefaultText';
+import toNestedText from './toNestedText';
 import toPlainText from './toPlainText';
 import toJSON from './toJSON';
 
 const typeToFormat = {
-  default: toDefaultText,
+  nested: toNestedText,
   plain: toPlainText,
   json: toJSON,
 };
