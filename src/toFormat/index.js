@@ -8,4 +8,4 @@ const typeToFormat = {
   json: toJSON,
 };
 
-export default (collDiff, format = 'default') => typeToFormat[format](collDiff);
+export default (collDiff, format) => typeToFormat[format](collDiff);
