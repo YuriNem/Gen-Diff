@@ -1,5 +1,5 @@
 
-const checkComplexValue = (value, string = '') => {
+const stringify = (value, string = '') => {
   if (value instanceof Object) {
     return 'complex value';
   }
@@ -16,11 +16,11 @@ export default (coll) => {
       case 'nested':
         return createPlain(children, `${parent}${key}.`);
       case 'updated':
-        return `Property ${parent}${key} was updated. From ${checkComplexValue(oldValue)} to ${checkComplexValue(newValue)}`;
+        return `Property ${parent}${key} was updated. From ${stringify(oldValue)} to ${stringify(newValue)}`;
       case 'removed':
         return `Property ${parent}${key} was removed`;
       case 'added':
-        return `Property ${parent}${key} was added with ${checkComplexValue(newValue, 'value: ')}`;
+        return `Property ${parent}${key} was added with ${stringify(newValue, 'value: ')}`;
       default:
         return '';
     }
