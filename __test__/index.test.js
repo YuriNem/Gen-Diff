@@ -54,6 +54,7 @@ describe('Compares two configuration files with trees and shows a difference in 
 
 describe('Compares two configuration files and shows a difference in plain text.', () => {
   const expected = fs.readFileSync('__test__/__fixtures__/plainDiff.txt', 'utf-8');
+
   test('json to plain text', () => {
     const pathToFileBefore = '__test__/__fixtures__/before.json';
     const pathToFileAfter = '__test__/__fixtures__/after.json';
@@ -103,6 +104,7 @@ describe('Compares two configuration files with trees and shows a difference in 
 
 describe('Compares two configuration files and shows a difference in JSON.', () => {
   const expected = fs.readFileSync('__test__/__fixtures__/jsonDiff.txt', 'utf-8');
+
   test('json to json', () => {
     const pathToFileBefore = '__test__/__fixtures__/before.json';
     const pathToFileAfter = '__test__/__fixtures__/after.json';

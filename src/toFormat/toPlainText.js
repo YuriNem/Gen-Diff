@@ -1,4 +1,3 @@
-
 const stringify = (value, string = '') => {
   if (value instanceof Object) {
     return 'complex value';
