@@ -24,6 +24,5 @@ export default (coll) => {
         return '';
     }
   }).join('\n');
-
   return createPlain(coll, '');
 };

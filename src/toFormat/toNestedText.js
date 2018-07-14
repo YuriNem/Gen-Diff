@@ -28,6 +28,5 @@ export default (coll) => {
         return '';
     }
   })).join('\n');
-
   return `{\n${createNested(coll, '  ')}\n}`;
 };
